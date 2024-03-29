@@ -9,7 +9,7 @@ const router = express.Router();
 // method POST
 router.post('/', auth, async (req, res, next) => {
     try {
-        const property = await Property.create({ title: req.body.title, city: req.body.city, user: req.user.id, locality : req.body.price, imageUrl: req.body.imageUrl,description: req.body.description,booked: req.body.booked});
+        const property = await Property.create({ title: req.body.title, city: req.body.city, user: req.user.id, locality :req.body.locality, price : req.body.price, imageUrl: req.body.imageUrl,description: req.body.description,booked: req.body.booked});
         if(!property) {
             return res.status(400).json({
                 success: false,
