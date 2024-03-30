@@ -78,6 +78,21 @@ router.get('/explore', auth, async(req, res, next) => {
     }
 });
 
+// fetch property for  search by location
+router.get('/explore/search', auth, async(req, res, next) => {
+    try {
+        const property = await Property.find({city:req.body.city,locality: req.body.locality, booked:false}).limit(15);
+
+        if(!property) {
+            return res.status(400).json({ success: false, msg: 'Something error happened'});
+        }
+
+        res.status(200).json({ success: true, count: property.length, propertys: property, msg: 'Successfully fetched'})
+    } catch (error) {
+        next(error);
+    }
+});
+
 // desc   Update a property
 // method PUT
 router.put('/:id', async (req, res, next) => {
