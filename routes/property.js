@@ -114,7 +114,31 @@ router.put('/:id', async (req, res, next) => {
     }
 });
 
-// desc Delete a task property
+
+// desc book a property
+// method PUT
+router.put('/book/:id', async (req, res, next) => {
+    try {
+        console.log("hi");
+        let property = await Property.findById(req.params.id);
+        console.log(property);
+        if(!property) {
+            return res.status(400).json({ success: false, msg: 'Property not exits' });
+        }
+
+        property = await Property.findByIdAndUpdate(req.params.id, { booked : true }, {
+            new: true,
+            runValidators: true
+        });
+
+        res.status(200).json({ success: true,property: property, msg: 'Successfully updated' });
+        
+    } catch (error) {
+        next(error);
+    }
+});
+
+// desc Delete a property
 // method Delete
 router.delete('/:id', async (req, res, next) => {
     try {
