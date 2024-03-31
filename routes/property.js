@@ -32,7 +32,7 @@ router.post('/', auth, async (req, res, next) => {
 //mehod  GET
 router.get('/', auth, async(req, res, next) => {
     try {
-        const property = await Property.find({user: req.user.id, booked: false});
+        const property = await Property.find({user: req.user.id});
 
         if(!property) {
             return res.status(400).json({ success: false, msg: 'Something error happened'});
@@ -66,7 +66,7 @@ router.get('/booked', auth, async(req, res, next) => {
 // get properties in explore tab random
 router.get('/explore', auth, async(req, res, next) => {
     try {
-        const property = await Property.find({booked:false}).limit(15);
+        const property = await Property.find({booked:false, user: {$ne:req.user.id}});
 
         if(!property) {
             return res.status(400).json({ success: false, msg: 'Something error happened'});
@@ -81,7 +81,7 @@ router.get('/explore', auth, async(req, res, next) => {
 // fetch property for  search by location
 router.get('/explore/search', auth, async(req, res, next) => {
     try {
-        const property = await Property.find({city:req.body.city,locality: req.body.locality, booked:false}).limit(15);
+        const property = await Property.find({city:req.body.city,locality: req.body.locality,  user: {$ne:req.user.id}, booked:false}).limit(15);
 
         if(!property) {
             return res.status(400).json({ success: false, msg: 'Something error happened'});
