@@ -79,7 +79,7 @@ router.get('/explore', auth, async(req, res, next) => {
 });
 
 // fetch property for  search by location
-router.get('/explore/search', auth, async(req, res, next) => {
+router.post('/explore/search', auth, async(req, res, next) => {
     try {
         const property = await Property.find({city:req.body.city,locality: req.body.locality,  user: {$ne:req.user.id}, booked:false});
 
